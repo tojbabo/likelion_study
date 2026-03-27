@@ -50,4 +50,4 @@ main은 병합용도로 써라
 ---
 ### 가져오기
 - $git fetch: 커밋정보만 가져옴
-- $git pull (git fetch + 로컬에서 병합)
+- $git pull (git fetch + 로컬에서 병합)ㅇㄹㅇㄹ
