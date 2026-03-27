@@ -50,4 +50,14 @@ main은 병합용도로 써라
 ---
 ### 가져오기
 - $git fetch: 커밋정보만 가져옴
-- $git pull (git fetch + 로컬에서 병합)ㅇㄹㅇㄹ
+  $git fetch - $git checkout main/master 이런식으로 가져온 커밋정보를 조회할 수 있다. 이걸 다시 로컬의 master에 합치면 된다.
+
+- $git pull (git fetch + 로컬에서 병합)
+  $git fetch + $git merge 한것과 같다.
+
+---
+### 원격 저장소 복사
+- $git clone:
+  원격저장소를 일반 디렉터리에 복사, clone하면 디렉터리가 생기고 초기화(git init)까지 됨
+  기본적으로 main(master)만 복사하고 그 외 branch는 복사 안됨.
+  $git clone https://~~~ [name] : name으로 저장. 없다면 원격 저장소명으로 저장됨
