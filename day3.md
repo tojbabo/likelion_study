@@ -1,63 +1,33 @@
-# DAY 3
----
-<작업트리> ---- <스테이지> ---- <저장소>
-
-git init 시 작업트리 생성
-
-git add로 작업한 파일 스테이징
-
-git commit으로 스테이지 한 내용 저장소에 저장
-
-tracked -> 한 번 이상 commit한, 추적 중인 파일
-untracked -> 새로 생성해서 한 번도 commit한 적 없는 파일
+# DAY 4.
 
 ---
-main branch는 작업하는 게 아니다!!
-main은 병합용도로 써라
-새로 기능을 만들어야 할때는 branch를 만들어서 병합해가면서 하는 것이 근본!
 
-### 병합의 종류
-##### git merge [sub]: 병합 명령어
+### 변수(Variable)
+데이터 저장을 위함(기본형 데이터 8개와 참조형 데이터를 저장)
 
-* Fast-Forward: 빨리감기 병합
-  sub에서 작업한걸 main에 덮어쓰는 방식이 아닌,
-  main이 작업을 안했다는 가정하에 HEAD(가장 최근)가 sub의 HEAD를 가르키게 하는 것
+*변수의 종류*
+* 데이터 종류에 따른 분류
+  1. 기본형 변수
+  2. 참조형 변수
+* 변수 선언 위치에 따른 분류
+  1. 로컬 변수
+  2. 인스턴스 변수
+  3. 클래스 변수
+   
+*변수의 특징*
+* 블럭 {} 단위로 변수가 살아있다
+* final 키워드로 상수 선언! (변경이 불가하다!)
 
-* 병합: 
-  A, B에서 각각 다른 파일을 작업 후 병합하면
-  알아서 각각 다른 버전으로 적용되서 합쳐짐
-
-* 병합충돌: 
-  같은 파일을 같이 수정했을 경우 발생하는 충돌
-
----
-### Github
-*git의 원격 저장소를 제공하는 클라우드*
-*저장소 기능 및 추가 기능 제공 (CI/CD - Github Action)*
-- $git remote add origin [URL]: origin이라는 이름으로 해당 URL을 추가한 것
-- $git remote -v: 원격 연결 상태 확인
-- $git remote: 원격 저장소 별칭 보기
-- $git remote rm origin: 원격 연결 끊기
-- -u: upstream, $git push -u origin hotfix - origin(원격 저장소)에 hotfix 브랜치가 생성됨.
-
-**원격에서 병합처리 - Pull Request(PR)**
-
-- $git branch: -r 리모트 모음 보기, -a 원격 브랜치 보기
-- $git push main --delete sub: 원격 branch 삭제 명령, 
-- $git fetch -p main: 수정사항을 다시 불러옴. *에러났을 때 해결 방법중 하나
-
-
----
-### 가져오기
-- $git fetch: 커밋정보만 가져옴
-  $git fetch - $git checkout main/master 이런식으로 가져온 커밋정보를 조회할 수 있다. 이걸 다시 로컬의 master에 합치면 된다.
-
-- $git pull (git fetch + 로컬에서 병합)
-  $git fetch + $git merge 한것과 같다.
-
----
-### 원격 저장소 복사
-- $git clone:
-  원격저장소를 일반 디렉터리에 복사, clone하면 디렉터리가 생기고 초기화(git init)까지 됨
-  기본적으로 main(master)만 복사하고 그 외 branch는 복사 안됨.
-  $git clone https://~~~ [name] : name으로 저장. 없다면 원격 저장소명으로 저장됨
+*데이터 형변환*
+1. 자동 형변환(묵시적)
+   byte > shourt > int > long > float > double ( 작은 타입이 큰 타입으로 자동변경 가능 )
+   char > int ( 문자가 정수로 자동 변경 )
+   
+   정수형 연산에서 Int 보다 작은 자료형은 Int로 형변환 되서 처리한다
+   short+short = short 이거 에러남
+   Int + double = int 이것 또한 에러남 (작은 타입과 큰 타입의 연산은 큰타입으로 결정됨)
+   문자열과 비문자열의 연산은 문자열로 변환됨
+2. 강제 형변환(명시적)
+   작은타입 = 큰타입 을 하기 위한 목적
+   작은타입 = (작은타입)큰 타입 문법
+   

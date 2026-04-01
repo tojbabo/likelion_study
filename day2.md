@@ -1,61 +1,80 @@
-# 2일차 - Git
+# DAY 3
+---
+<작업트리> ---- <스테이지> ---- <저장소>
+
+git init 시 작업트리 생성
+
+git add로 작업한 파일 스테이징
+
+git commit으로 스테이지 한 내용 저장소에 저장
+
+tracked -> 한 번 이상 commit한, 추적 중인 파일
+untracked -> 새로 생성해서 한 번도 commit한 적 없는 파일
 
 ---
+main branch는 작업하는 게 아니다!!
+main은 병합용도로 써라
+새로 기능을 만들어야 할때는 branch를 만들어서 병합해가면서 하는 것이 근본!
 
-### Basic Operation
+### 병합의 종류
+##### git merge [sub]: 병합 명령어
 
-<span style="background-color:#fdd;">작업 디렉토리 ------------ 스테이지 ------------로컬 저장소</span>
+* Fast-Forward: 빨리감기 병합
+  sub에서 작업한걸 main에 덮어쓰는 방식이 아닌,
+  main이 작업을 안했다는 가정하에 HEAD(가장 최근)가 sub의 HEAD를 가르키게 하는 것
 
-$git add: 새로 추가된 파일을 스테이징(tracking)함
+* 병합: 
+  A, B에서 각각 다른 파일을 작업 후 병합하면
+  알아서 각각 다른 버전으로 적용되서 합쳐짐
 
-$git commit: 변경 사항을 로컬 저장소로 저장함
-- --amend: 옵션을 추가해서 commit 메시지를 변경 가능함.
-- -am: 변경된 파일 추가 및 메시지 지정
-  
-$git diff: 작업 디렉터리와 로컬 저장소 비교
-- -staged: 스테이징 된 애만 비교
-
-$git log: commit 로그를 볼 수 있다.
-- --oneline옵션으로 간단하게 쭈루룩 볼 수 있다.
-- $git diff [hash] 해쉬 값으로 특정 커밋과 비교해볼 수 있다
-
-$git restore [파일명]: 커밋 이전상태 되돌리기
-- --staged: git add 되돌리기
-
-$git reset [option] [hash]: 커밋 이후 작업 되돌리기
-*커밋 로그도 지워지기 때문에 조심해야함*
-- --soft : git commit 되돌리기
-- --mixed: git add 전까지 되돌리기
-- --hard : 작업 디렉터리 수정 전까지 되돌리기
-
-$git revert [hash]: 기존 새로운 커밋을 만들고 해당 위치로 이동, one > two > three > four(one)
-- --abort : 잘 안되면 명령어를 취소해버리자
+* 병합충돌: 
+  같은 파일을 같이 수정했을 경우 발생하는 충돌
 
 ---
+### Github
+*git의 원격 저장소를 제공하는 클라우드*
+*저장소 기능 및 추가 기능 제공 (CI/CD - Github Action)*
+- $git remote add origin [URL]: origin이라는 이름으로 해당 URL을 추가한 것
+- $git remote -v: 원격 연결 상태 확인
+- $git remote: 원격 저장소 별칭 보기
+- $git remote rm origin: 원격 연결 끊기
+- -u: upstream, $git push -u origin hotfix - origin(원격 저장소)에 hotfix 브랜치가 생성됨.
 
-### Base
+**원격에서 병합처리 - Pull Request(PR)**
 
-로컬 저장소: .\.git\object에 해시값 앞에 두 글자로 된 폴더에 잘 저장되어있다.
+- $git branch: -r 리모트 모음 보기, -a 원격 브랜치 보기
+- $git push main --delete sub: 원격 branch 삭제 명령, 
+- $git fetch -p main: 수정사항을 다시 불러옴. *에러났을 때 해결 방법중 하나
 
-.gitignore 파일을 써서 추적하지 않을 파일을 명시할 수 있다.
-<span style=background-color:#dfd> **gitignore에 명시해도 적용이 안되는 경우가 있는데, 이땐 cache를 지워줘야 한다.** </span>
-https://www.toptal.com/developers/gitignore < 홈페이지를 통해 자동으로 만들어 준다!
 
 ---
+### 가져오기
+- $git fetch: 커밋정보만 가져옴
+  $git fetch - $git checkout main/master 이런식으로 가져온 커밋정보를 조회할 수 있다. 이걸 다시 로컬의 master에 합치면 된다.
 
-### Branch
+- $git pull (git fetch + 로컬에서 병합)
+  $git fetch + $git merge 한것과 같다.
 
-이전엔 default branch는 master였다. > 요즘은 main으로 바뀜.
-git init 시 main branch로 자동 설정됨
+---
+### 원격 저장소 복사
+- $git clone:
+  원격저장소를 일반 디렉터리에 복사, clone하면 디렉터리가 생기고 초기화(git init)까지 됨
+  기본적으로 main(master)만 복사하고 그 외 branch는 복사 안됨.
+  $git clone https://~~~ [name] : name으로 저장. 없다면 원격 저장소명으로 저장됨
 
-*각 branch는 독립적임. branch 복사 시 reference가 아닌, copy된 branch가 생성되는 것!*
 
-- $git branch: check the branch list
-- $git branch [name]: create new branch
-- $git branch -d [name]: delete the branch
-- $git switch [name]: switch current branch (=git checkout [name] - oldy operation)
-  - -c: with this option, switch branch after create
-- $git branch main..[name]: check the differnce on [name] from main
-- $git merge [name]: merging branch [name] from current
-  - done this job. delete the sub branch
+---
+##Java
 
+####Java의 자료형
+리터럴(literal): 변수를 의미
+
+1. 기본형
+  * 숫자형: byte, short, int, long, float, double 
+  * 문자형: char 
+  * 논리형: boolean
+
+2. 참조형
+  * 클래스
+  * 인터페이스
+  * 
