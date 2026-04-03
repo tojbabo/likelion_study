@@ -72,3 +72,8 @@
   }
   </pre>
   
+---
+Command Line Arguments
+main method에 파라미터로 있는 String[] args란?
+프로그램 시작시에 값을 입력해 줄 수 있다.
+*숫자로 넣어도 String으로 입력이 되기 때문에 유의*
