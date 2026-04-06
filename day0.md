@@ -1,4 +1,4 @@
-# 2일차 - Git
+# 0일차 - Git
 
 JDK란 Java Developement Kit
 
