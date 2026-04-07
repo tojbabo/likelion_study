@@ -82,5 +82,41 @@ super.멤버 를 통해 부모의 멤버(변수, 메서드)를 호출할 수 있
 *이러한 특성을 활용한다면 Object타입으로 배열을 만들면 자바의 모든 데이터 저장이 가능하다*
 
 
+*동적 타이핑*(dynamic typing)
+컴파일 시점에 알고 있는 method와 실행시점의 method가 동적으로 변경된다는 개념
 
-  
+<pre>
+ class A{
+   func(){
+     s.o.p(hi)
+   }
+ }
+ class B extens A{
+   @override
+   func(){
+     s.o.p(bye)
+   }
+   gunc(){
+
+   }
+ }
+
+ A a = new B()
+ a.func() // bye ,, 컴파일 시점에서는 hi였지만 동적으로 bye로 변경됨.
+ a.gunc() // 이건 컴파일 에러가 나겠지
+
+ B b = (B)a
+ a.gunc() // 이렇게 써 줘야 한다
+
+그래서, if(a instanceof B){} 조건문을 활용해서 쓴다
+</pre>
+
+---
+#### package
+클래스 파일을 관리하기 위함. 윈도우 폴더와 비슷한 기능
+패키지를 지정하지 않을 경우 default 패키지로 처리됨
+
+package가 다른 class 들끼리는 접근이 불가하고, import를 해줘야 함. > 이말은 패키지가 다르다면 동일한 클래스명도 사용이 가능하다
+단, java.lang은 import 안해도 됨.
+
+*import 패키지명.서브패키지.클래스명;*
