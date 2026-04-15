@@ -89,6 +89,16 @@ CRUD 작업 이란
 값이 없는 데이터
 * 기본적으로 모든 컬럼은 null을 가질 수 있음
   강제적으로 null을 갖지 못하도록 제한할 수 있음(NOT NULL)
+* null 값에 연산을 할 경우 null이 나온다
+  따라서 기본 값을 임의의 값으로 설정해주는 것이 좋음
+<pre>
+    ifnull(컬럼명, 기본값) <=== 컬럼 값이 null일때 기본값으로 연산
+                              orcle에서는 NVL(컬럼명, 기본값)
+
+    ex) select num + 10 as numA, ifnull(num,20) + 10 from ...
+</pre>
+* is null / is not null 연산으로 찾기
+* 정렬 시 null 값은 가장 최소값으로 처리 (oracle에서는 최대값)
 
 ---
 ### 제약 조건
@@ -142,4 +152,142 @@ CRUD 작업 이란
 
 
 
-   
+---
+* distinct 중복제거
+* between A and B : A와 B범위의 존재하는 값을 찾음. A와 B값 포함
+* IN (값 1, 값 2, 값3 ...)
+select distinct a, b 
+from t
+where sal between '2025-06-20' and '2025-08-02' or name in ('a','b','c');
+
+
+#### like 연선자
+* 패턴(와일드 카드)으로 조회
+* 와일드 카드
+  * %: 없거나 여러개 값으로 치환
+  * _: ㅂㄴ드시 하나의 값으로 치환
+
+######
+    select * from emp
+    where name like '%A%';      // A가 포함된 이름
+    where name like 'A%';       // A로 시작하는 이름
+    where name like '%A';       // A로 끝나는 이름
+    where name like '_A';       // 두글자이고 A로 끝나는 이름
+    where name like '___A%';    // 네번째 글자가 A인 이름
+
+--- 
+## 함수
+
+###### 문자열 함수
+    lower()                       : 소문자
+    upper()                       : 대문자
+
+    CONCAT(str1,str2,str3 ...)    : 문자열 합치기
+    CONCAT_WS(separator,str1,str2...) 
+      : separator를 중간에 포함하는 문자열 합치기
+
+    LPAD/ RPAD(str,len,padstr)    : 문자 채우기
+    
+    SUBSTIRNG/ SUBSTR(str,pos,len)     
+      : 부분 문자열 (pos는 1부터 시작)
+    RIGHT/ LEFT(str,len)
+      : 왼쪽(오른쪽) len길이의 부분 문자열
+
+    LENGTH(str), CHAR_LENGTH(str)
+      : 문자열 길이
+
+    REPLACE(str, fromstr, tostr)  : 문자열 바꾸기
+    INSERT(str, pos, len, newstr) 
+
+    INSTR(str, substr)            : 특정 문자열 위치 가져오기
+
+    LTRIM/ RTRIM/ LRTRIM(str)     : 공백 제거
+
+    TRIM(BOTH substr from str)    : 특정 문자 제거
+    TRIM(LEADING substr from str) : 왼쪽에서 문자 제거
+    TRIM(TRAINIG substr from str) : 오른쪽에서 문자 제거
+
+    REPEAT(str, count)            : 문자열 반복
+
+    REVERSE(str)                  : 문자열 뒤집기
+
+    SPACE(n)                      : n 만큼의 공백 반환
+    
+    FORMAT(정수, 소수점자릿수 [,locale])
+      : 정수값을 포맷을 가진 문자열로 출력(반올림)
+      > FORMAT(1123.12345, 4) => "1,123.1235"
+      > FORMAT(1123.12345, 4, 'ko_kr') => "1,123.1235" // 기본은 en_us
+
+
+###### 숫자 함수
+    ABS(n)              : 절대값
+    SIGN(n)             : n이 양수면 1, 음수면 -1, 0이면 0
+    ROUND(n, [m])       : 반올림, m 자릿수
+    TRUNCATE(n, m)      : m자릿 수 아래 버림(반내림)
+    ceil, floor         
+      : 소숫점을 가진 값을 정수로 변경 (ceil: 보다 큰 정수, floor: 같거나 작은 정수)
+    MOD(n,m)            : n을 m으로 나눈 나머지
+
+
+###### 날짜 함수
+    NOW(), current_timestamp()
+      'YYYY-MM-DD hh:mm:ss': SQL 실행 시점의 현재시간
+    SYSDATE()  
+      'YYYY-MM-DD hh:mm:ss': 함수 호출 시점의 현재시간
+
+    curdate(), current_date(), current_date 
+      'YYYY-MM-DD': 현재 날짜 정보
+
+    curtime(), cureent_time(), current_time
+      'hh:mm:ss': 현재 시간
+
+    adddate(date,day): 날짜 정보에 일 수 만큼 더함
+    <> subdate(date, day)
+    ++ date_add('2020-10-10', interval 31 month) <> date_sub('2020-10-10', interval 31 month)
+
+    datediff(date1, date2): 두 날짜의 일 차이
+    timestampdiff(unit, time1, tim2)
+      : unit(year, month 등등)에 따른 두 시간 데이터 차이
+
+    last_day(date): 오늘 날짜 기준 이번달 마지막 날 구하기
+
+    extract(unit from now()): 지금 기준 unit 연월일 시분초 구하기
+
+    date_format(date, format)
+      format - '%Y-%M,%D': date to string
+    
+    str_to_date(str, format): string to date
+      str_to_date('2026::10::31','%y::%m::%d')
+    
+###### 조건 함수
+    if(exp, true result, false result): 조건문
+      if(1 > 2, '정답', '오답') -> "오답"
+
+    case: switch 문
+      case name when 'A' then 1
+                hwen 'b' then 2
+                else 3
+      end
+
+      case when id > 10 then 1
+           when id > 20 then 2
+           else 3
+      end
+
+###### 형변환 함수
+    cast(10 as char): 10 -> '10'
+
+  
+##### 그룹 함수
+    sum(), avg(), max(), min(), count()
+    distinct를 옵션으로 넣을 수 있다[sum(distinct point)]
+    count()의 경우 기본적으로 null 값은 제외.
+    
+    group by 를 통해 그룹으로 묶는다
+    having 을 통해 묶은 애들에 조건을 줌
+
+    where과 having의 차이점. where은 묶기전 조건, having은 묶은 후 조건
+
+    
+
+
